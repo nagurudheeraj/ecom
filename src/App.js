@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {
+  createBrowserRouter,
+  Route,
+  createRoutesFromElements,
+  RouterProvider,
+  Outlet
+} from "react-router-dom";
 
-function App() {
+import Header from "./Components/Header"
+import Body from "./Components/Body/Index"
+import Footer from "./Components/Footer/Index";
+import ProductPage from "./Components/Pages/ProductPage";
+import Cart from "./Components/Pages/Cart";
+import Registration from "./Components/Pages/Registration";
+import LoginRouting from "./Components/Utils/LoginRouting";
+import CategoryPage from "./Components/Pages/CategoryPage";
+
+function Layout() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Header />
+      <main>
+        <Outlet />
+      </main>
+      <Footer />
     </div>
   );
+}
+
+
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<Layout />}>
+      <Route index element={<Body />} />
+      <Route path="cart" element={<Cart />} />
+      <Route path="login" element={<LoginRouting />} />
+      <Route path="registration" element={<Registration />} />
+      <Route path="product/category/:id" element={<CategoryPage />} />
+      <Route path="product/:id" element={<ProductPage />} />
+
+    </Route>
+  )
+);
+
+function App() {
+  return <RouterProvider router={router} />;
 }
 
 export default App;
